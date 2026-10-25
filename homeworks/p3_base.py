@@ -1,86 +1,76 @@
 """
-Презентация 4 — базовый уровень.
-Алгоритмы: проверка дубликатов и оценка сложности.
+ДЗ презентации 3, базовый уровень, задача 1.
+Время: 10–15 минут.
 
-Код уже написан. Впишите пропущенные строки там, где стоит # TODO.
-Разрешены только присваивания и арифметические операторы.
+Тема: алгоритмы, сложность O(n^2).
+
+Условие:
+    Дана функция, которая сравнивает два числа nums[i] и nums[j].
+    Допишите тело: если они равны, верните True.
+    Циклы уже написаны — вписывать их не нужно.
+
+Подсказка:
+    Внутри if нужно вернуть True.
 """
 
-# ============================================================
-# Задача 1. Проверка дубликатов (медленное решение)
-# ============================================================
-# Условие:
-#   Дан список nums. Вернуть True, если есть повторяющиеся
-#   элементы, иначе False.
-
 def has_duplicates_slow(nums: list) -> bool:
-    result = False
     for i in range(len(nums)):
         for j in range(i + 1, len(nums)):
             if nums[i] == nums[j]:
-                result = True
+                return True
             pass
-    return result
-
-
-# ============================================================
-# Задача 2. Проверка дубликатов (быстрое решение)
-# ============================================================
-# Условие:
-#   То же самое, но через set.
-
-def has_duplicates_fast(nums: list) -> bool:
-    seen = set()
-    result = False
-    for x in nums:
-        if x in seen:
-            result = True
-            pass
-        seen.add(x)
-        pass
-    return result
-
-
-# ============================================================
-# Задача 3. Оценка сложности
-# ============================================================
-# Ниже — готовые функции. Впишите правильную строку сложности
-# вместо многоточия (это присваивание значения переменной).
-#
-# Варианты: "O(1)", "O(log n)", "O(n)", "O(n log n)", "O(n^2)"
-
-def complexity_a() -> str:
-    # for x in items:
-    #     print(x)
-    answer = "O(n)"  # TODO
-    return answer
-
-
-def complexity_b() -> str:
-    # for x in items:
-    #     for y in items:
-    #         print(x, y)
-    answer = "O(n^2)"  # TODO
-    return answer
-
-
-def complexity_c() -> str:
-    # i = 0
-    # while i < n:
-    #     i *= 2
-    answer = "O(log n)"  # TODO
-    return answer
-
-
-def complexity_d() -> str:
-    # for x in items:
-    #     pass
-    # for x in items:
-    #     for y in items:
-    #         pass
-    answer = "O(n^2)"  # TODO
-    return answer
+    return False
 
 
 if __name__ == "__main__":
-    print("p4_base: впишите пропущенные строки вместо TODO.")
+    data = [1, 2, 3, 2]
+    print(has_duplicates_slow(data))   # True
+    print(has_duplicates_slow([1, 2, 3]))  # Falsetask_01.py
+
+
+"""
+ДЗ презентации 3, базовый уровень, задача 2.
+Время: 20–30 минут.
+
+Тема: оценка сложности.
+
+Условие:
+    Определите временную сложность фрагментов.
+    Ответ — строка: "O(1)", "O(log n)", "O(n)", "O(n log n)", "O(n^2)".
+
+Фрагмент A:
+    for x in items:
+        print(x)
+
+Фрагмент B:
+    for x in items:
+        for y in items:
+            print(x, y)
+
+Фрагмент C:
+    i = 0
+    while i < n:
+        i *= 2
+
+Фрагмент D:
+    for x in items:
+        pass
+    for x in items:
+        for y in items:
+            pass
+"""
+
+def complexity_a() -> str:
+    return "O(n)"
+
+def complexity_b() -> str:
+    return "O(n^2)"
+
+def complexity_c() -> str:
+    return "O(log n)"
+
+def complexity_d() -> str:
+    return "O(n^2)"
+
+if __name__ == "__main__":
+    print(complexity_a(), complexity_b(), complexity_c(), complexity_d())
