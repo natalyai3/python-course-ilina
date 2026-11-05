@@ -330,6 +330,7 @@ def task_4_8(a: int, b: int, c: int) -> str:
 # Запросите логин и пароль. Выведите "ok" только если
 # логин не пустой, пароль длиннее 6 символов и содержит цифру.
 
+# Вариант 1
 def task_4_9(login: str, password: str) -> str:
     """Вернуть 'ok' или 'fail'."""
     if login != "" and len(password) > 6 and len(re.findall(r"\d", password)) >= 1:
@@ -337,6 +338,10 @@ def task_4_9(login: str, password: str) -> str:
     else:
         return "fail"
 
+# Вариант 2
+def task_4_9(login: str, password: str) -> str:
+    """Вернуть 'ok' или 'fail'."""
+    return "ok" if any(c.isdigit() for c in password) and login != "" and len(password) > 6 else "fail"
 
 # ============================================================
 # Тема 5. Операции со строками
