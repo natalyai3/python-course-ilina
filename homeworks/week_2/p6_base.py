@@ -22,30 +22,40 @@
 
 def hw_1_1_login_ok(login: str) -> bool:
     """Вернуть True, если логин от 3 до 20 символов."""
+    # Используется сравнение через диапазон, применяется метод строки len()
     return 3 <= len(login) <= 20
 
 def hw_1_2_age_ok(age: int) -> bool:
     """Вернуть True, если 18 <= age <= 120."""
+    # Используется сравнение через диапазон
     return 18 <= age <= 120
 
 
 def hw_1_3_both_ok(login: str, age: int) -> bool:
     """Вернуть True, если логин и возраст корректны."""
+    # Проверка соответствия через логический оператор 
     return hw_1_1_login_ok(login) and hw_1_2_age_ok(age)
 
 
 def hw_1_4_first_error(login: str, age: int) -> str:
     """Вернуть текст первой ошибки или 'ok'."""
+    # Многоступенчатая проверка по условиям
+    # Проверка: логин пустой?
     if login == "":
         return "empty login"
+    # Проверка: логин некорректен и длина меньше трех
     elif hw_1_1_login_ok(login) == False and len(login) < 3:
         return "short login"
+    # Проверка: логин некорректен и длина больше 20
     elif hw_1_1_login_ok(login) == False and len(login) > 20:
         return "long login"
+    # Проверка: возраст некорректен и меньше 18
     elif hw_1_2_age_ok(age) == False and age < 18:
         return "too young"
+    # Проверка: возраст некорректен и больше 120
     elif hw_1_2_age_ok(age) == False and age > 120:
         return "too old"
+    # Проверка: всё корректно
     elif hw_1_3_both_ok(login, age):
         return "ok"
 
@@ -100,6 +110,7 @@ if __name__ == "__main__":
 
 def hw_2_1_grade(score: int) -> str:
     """Вернуть 'A', 'B', 'C' или 'F'."""
+    # Многоступенчатая проверка соответствия баллов
     if score >= 90:
         return "A"
     elif score >= 75:
@@ -112,16 +123,19 @@ def hw_2_1_grade(score: int) -> str:
 
 def hw_2_2_scholarship(score: int) -> bool:
     """Вернуть True, если оценка 'A'."""
+    # Проверка: оценка A
     return hw_2_1_grade(score) == "A"
 
 
 def hw_2_3_score_ok(score: int) -> bool:
     """Вернуть True, если 0 <= score <= 100."""
+    # Проверка корректности балла через диапазон
     return 0 <= score <= 100
 
 
 def hw_2_4_grade_line(score: int) -> str:
     """Вернуть строку вида 'A:yes' или 'B:no'."""
+    # Возврат f-строки, внутри фигурных скобок выполняется доп. проверка
     return f"{hw_2_1_grade(score)}:{'yes' if hw_2_2_scholarship(score) else 'no'}"
 
 
@@ -165,26 +179,31 @@ if __name__ == "__main__":
 
 def hw_3_1_level(line: str) -> str:
     """Вернуть уровень до ':'."""
+    # Возврат нулевого элемента списка после деления строки по сепаратору
     return line.split(":")[0]
 
 
 def hw_3_2_message(line: str) -> str:
     """Вернуть сообщение после ':'."""
+    # Возврат первого элемента списка после деления строки по сепаратору
     return line.split(":")[1]
 
 
 def hw_3_3_is_alert(line: str) -> bool:
     """Вернуть True, если уровень 'ERROR' или 'WARN'."""
+    # Проверка соответствия строки в верхнем регистре сообщению об ошибке или предупреждении
     return hw_3_1_level(line).upper() == "ERROR" or hw_3_1_level(line).upper() == "WARN"
 
 
 def hw_3_4_message_clean(line: str) -> bool:
     """Вернуть True, если сообщение не пустое и без пробелов по краям."""
+    # Проверка непустой строки и отсутствия пробелов по краям с помощью методов
     return hw_3_2_message(line) != "" and line == line.strip()
 
 
 def hw_3_5_normalize(line: str) -> str:
     """Вернуть 'LEVEL:message' в нормализованном виде."""
+    # Проверка корректности строки и вывод f-строки с использованием методов строк .upper(), .lower()
     if hw_3_4_message_clean(line) == False:
         return False
     else:
@@ -231,35 +250,45 @@ if __name__ == "__main__":
 
 def hw_4_1_pos_even(x: int) -> bool:
     """Вернуть True, если x > 0 и x % 2 == 0."""
+    # Проверка двумя условиями
     return x > 0 and x % 2 == 0
 
 
 def hw_4_2_neg_div3(x: int) -> bool:
     """Вернуть True, если x < 0 и x % 3 == 0."""
+    # Проверка двумя условиями
     return x < 0 and x % 3 == 0
 
 
 def hw_4_3_is_zero(x: int) -> bool:
     """Вернуть True, если x == 0."""
+    # Проверка равенства нулю
     return x == 0
 
 
 def hw_4_4_describe(x: int) -> str:
     """Вернуть описание значения."""
+    # Многоступенчатая проверка условий
+    # Проверка: положительное и четное
     if x > 0 and hw_4_1_pos_even(x):
         return "positive even"
+    # Проверка: положительное и нечетное
     elif x > 0 and not hw_4_1_pos_even(x):
         return "positive odd"
+    # Проверка: отрицательное и кратное трем
     elif x < 0 and hw_4_2_neg_div3(x):
         return "negative div3"
+    # Проверка: отрицательное и некратное трем
     elif x < 0 and not hw_4_2_neg_div3(x):
         return "negative not div3"
+    # Проверка: ноль
     elif hw_4_3_is_zero(x):
         return "zero"
 
 
 def hw_4_5_all_positive(values: list[int]) -> bool:
     """Вернуть True, если все значения > 0."""
+    # Проверка: является ли минимальное значение списка больше нуля
     return min(values) > 0
 
 
@@ -307,29 +336,40 @@ import re
 
 def hw_5_1_keys(data: str) -> list[str]:
     """Вернуть список ключей."""
+    # Деление строки по ";", деление подстроки по "="
+    # Генерация списка списков и преобразование в словарь
     res = dict(x.split("=") for x in data.split(";"))
+    # Возврат только ключей словаря
     return list(res.keys())
 
 
 def hw_5_2_values(data: str) -> list[str]:
     """Вернуть список значений."""
+    # Деление строки по ";", деление подстроки по "="
+    # Генерация списка списков и преобразование в словарь
     res = dict(x.split("=") for x in data.split(";"))
+    # Возврат только значений словаря
     return list(res.values())
 
 
 def hw_5_3_all_nonempty(data: str) -> bool:
     """Вернуть True, если все значения непустые."""
+    # Получение значений функцией hw_5_2_values(data)
+    # Проверка соответствия непустой строке
     return all(x != "" for x in hw_5_2_values(data))
 
 
 def hw_5_4_has_digit(data: str) -> bool:
     """Вернуть True, если в строке есть хотя бы одна цифра."""
+    # Проверка через метод isdigit()
     return any(x.isdigit() for x in data)
 
 
 def hw_5_5_keys_latin(data: str) -> bool:
     """Вернуть True, если все ключи — только латинские буквы."""
+    # Получение списка ключей функцией hw_5_1_keys(data)
     keys_list = hw_5_1_keys(data)
+    # Проверка: состоят ли все ключи только из латиницы с помощью метода isascii()
     return all(x.isascii() for x in keys_list)
 
 
@@ -349,6 +389,3 @@ if __name__ == "__main__":
     assert hw_5_5_keys_latin("имя=Ira") is False
 
     print("task5: все assert-тесты пройдены.")
-
-
-    
