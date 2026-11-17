@@ -28,40 +28,57 @@ import re
 
 def hw_1_1_login_ok(login: str) -> bool:
     """Вернуть True, если логин корректен."""
+    # Проверка: логин не короче 3 и не длиннее 20 символов и не содержит пробелов
+    # Используемые методы: len() для длины логина, isspace() для проверки пробела
+    # Функция any(): хотя бы один элемент соответствует
+    # Генератор с помощью for
     return 3 <= len(login) <= 20 and not any(x.isspace() for x in login)
 
 
 def hw_1_2_email_ok(email: str) -> bool:
     """Вернуть True, если email подходит под шаблон."""
+    # Проверка с помощью метода re.fullmatch() и регулярки
+    # Шаблон: любое количество символов + @ + любое количество символов + . + три буквы в нижнем регистре
     return bool(re.fullmatch('\\w+@\w+\.[a-z]{2,3}', email))
 
 
 def hw_1_3_age_ok(age: int) -> bool:
     """Вернуть True, если 18 <= age <= 120."""
+    # Проверка с помощью двойного неравенства
     return 18 <= age <= 120
 
 
 def hw_1_4_all_ok(login: str, email: str, age: int) -> bool:
     """Вернуть True, если все поля корректны."""
+    # Проверка соответствия логина, почты и возраста по трем предыдущим функциям
     return hw_1_1_login_ok(login) and hw_1_2_email_ok(email) and hw_1_3_age_ok(age)
 
 
 def hw_1_5_first_error(login: str, email: str, age: int) -> str:
     """Вернуть текст первой ошибки или 'ok'."""
+    # Проверка: логин пустой?
     if login == "":
         return "empty login"
+    # Проверка: логин короткий?
     elif len(login) < 3:
         return "short login"
+    # Проверка: логин длинный?
     elif len(login) > 20:
         return "long login"
+    # Проверка: есть пробел?
+    # Методы: any(), isspace(), генератор
     elif any(x.isspace() for x in login):
         return "space in login"
+    # Проверка почты по шаблону
     elif not hw_1_2_email_ok(email):
         return "bad email"
+    # Проверка: слишком молодой?
     elif age < 18:
         return "too young"
+    # Проверка: слишком старый?
     elif age > 120:
         return "too old"
+    # Иное: ошибок нет
     else:
         return "ok"
 
@@ -127,6 +144,7 @@ if __name__ == "__main__":
 
 def hw_2_1_category(exp: int, perf: int) -> str:
     """Вернуть 'senior', 'middle' или 'junior'."""
+    # Проверка по двум условиям: опыт и оценка
     if exp >= 5 and perf >= 80:
         return "senior"
     elif exp >= 2 and perf >= 60:
@@ -137,6 +155,8 @@ def hw_2_1_category(exp: int, perf: int) -> str:
 
 def hw_2_2_bonus(exp: int, perf: int) -> int:
     """Вернуть процент премии (0/10/15/20/30)."""
+    # Проверка по двум условиям: категория и диапазон баллов
+    # Вторая проверка вложена в return
     if hw_2_1_category(exp, perf) == "senior":
         return 30 if perf >= 95 else 20
     if hw_2_1_category(exp, perf) == "middle":
@@ -147,22 +167,28 @@ def hw_2_2_bonus(exp: int, perf: int) -> int:
 
 def hw_2_3_valid(exp: int, perf: int) -> bool:
     """Вернуть True, если стаж и оценка корректны."""
+    # Проверка того, что опыт и стаж находятся в диапазоне допустимых значений
     return exp >= 0 and 0 <= perf <= 100
 
 
 def hw_2_4_line(exp: int, perf: int) -> str:
     """Вернуть 'категория:премия'."""
+    # Результат с помощью f-строки
+    # Используются предыдущие функции для получения категории и премии
     return f"{hw_2_1_category(exp, perf)}:{hw_2_2_bonus(exp, perf)}"
 
 
 def hw_2_5_big_bonus(exp: int, perf: int) -> bool:
     """Вернуть True, если премия > 15."""
+    # Проверка с помощью неравенства
     return hw_2_2_bonus(exp, perf) > 15
 
 
 def hw_2_6_any_senior(a_exp: int, a_perf: int,
                      b_exp: int, b_perf: int) -> bool:
     """Вернуть True, если хотя бы один — senior."""
+    # Проверка двух сотрудников, используются функция для определения категории
+    # Логический оператор "или"
     return hw_2_1_category(a_exp, a_perf) == "senior" or hw_2_1_category(b_exp, b_perf) == "senior"
 
 
@@ -221,16 +247,24 @@ import re
 
 def hw_3_1_date(line: str) -> str:
     """Вернуть дату (до первого '|')."""
+    # Деление строки по разделителю "|"
+    # Возврат нулевого по индексу элемента - дата
     return line.split("|")[0]
 
 def hw_3_2_level(line: str) -> str:
     """Вернуть уровень (вторая часть)."""
+    # Деление строки по разделителю "|"
+    # Возврат первого по индексу элемента - уровень
     return line.split("|")[1]
 
 def hw_3_3_message(line: str) -> str:
     """Вернуть сообщение (третья часть)."""
+    # Деление строки по разделителю "|"
+    # Возврат второго по индексу элемента - сообщение
     return line.split("|")[2]
 
+# Вариант 1: используются предыдущие функции
+# Проверка: их результат не равен пустой строке
 def hw_3_4_well_formed(line: str) -> bool:
     """Вернуть True, если ровно три непустые части."""
     return line.count("|") == 2\
@@ -238,19 +272,30 @@ def hw_3_4_well_formed(line: str) -> bool:
               and hw_3_2_level(line) != ""\
                   and hw_3_3_message(line) != ""
 
+# Вариант 2: используется функция any, генератор и подсчет "|" в строке
+def hw_3_4_well_formed(line: str) -> bool:
+    """Вернуть True, если ровно три непустые части."""
+    return not any(x == "" for x in line.split("|")) and line.count("|") == 2
+
 
 def hw_3_5_is_alert(line: str) -> bool:
     """Вернуть True, если уровень 'ERROR' или 'WARN'."""
+    # Проверка: вывод функции с возвратом уровня соответствует одному из элементов списка
     return hw_3_2_level(line) in ['ERROR', 'WARN']
 
 
 def hw_3_6_date_ok(line: str) -> bool:
     """Вернуть True, если дата вида YYYY-MM-DD."""
+    # Используется метод re.fullmatch(), split()
+    # Шаблон для даты: 4 цифры + - + 2 цифры + - + 2 цифры
     return bool(re.fullmatch("\d{4}-\d{2}-\d{2}", hw_3_1_date(line).split()[0])) 
 
 
 def hw_3_7_normalize(line: str) -> str:
     """Вернуть нормализованный лог."""
+    # Лог соединяется через функцию списка join()
+    # Внутри списка результаты предыдущих функций
+    # Методы строк upper(), lower() применяются к уровню и сообщению соответственно
     return "|".join([hw_3_1_date(line), hw_3_2_level(line).upper(), hw_3_3_message(line).lower()])
 
 
@@ -304,21 +349,26 @@ if __name__ == "__main__":
 
 def hw_4_1_pos_even(x: int) -> bool:
     """Вернуть True, если x > 0 и x % 2 == 0."""
+    # Проверка: больше нуля и кратко двум
     return x > 0 and x % 2 == 0
 
 
 def hw_4_2_neg_div3(x: int) -> bool:
     """Вернуть True, если x < 0 и x % 3 == 0."""
+    # Проверка: меньше нуля и кратно трем
     return x < 0 and x % 3 == 0
 
 
 def hw_4_3_is_zero(x: int) -> bool:
     """Вернуть True, если x == 0."""
+    # Проверка: равно нулю
     return x == 0
 
 
 def hw_4_4_describe(x: int) -> str:
     """Вернуть описание значения."""
+    # Двойная проверка: сначала знак числа, а затем доп условие (четность или кратность трем)
+    # Вторая проверка вложена в строку с return 
     if x > 0:
         return "positive even" if hw_4_1_pos_even(x) else "positive odd"
     elif x < 0:
@@ -329,24 +379,31 @@ def hw_4_4_describe(x: int) -> str:
 
 def hw_4_5_all_positive(values: list[int]) -> bool:
     """Вернуть True, если все значения > 0."""
+    # Используется функция all() и генератор
     return all(x > 0 for x in values)
 
 
 def hw_4_6_has_zero(values: list[int]) -> bool:
     """Вернуть True, если есть хотя бы один 0."""
+    # Используется функция any() и генератор
     return any(x == 0 for x in values)
 
 
 def hw_4_7_all_valid(values: list[int]) -> bool:
     """Вернуть True, если все значения корректны."""
+    # Проверка с помощью функции all() и предыдущих функций
     return all(hw_4_1_pos_even(x) or hw_4_2_neg_div3(x) or hw_4_3_is_zero(x) for x in values)
 
 
 def hw_4_8_first_bad(values: list[int]) -> int | None:
     """Вернуть первое плохое значение или None."""
+    # Цикл по всем значениям списка
     for x in values:
+        # Если какое-то значение не соответствует, то оно возвращается
+        # Используются предыдущие функции
         if not (hw_4_1_pos_even(x) or hw_4_2_neg_div3(x) or hw_4_3_is_zero(x)):
             return x
+        # Иначе: возвращается None
     return None
 
 
@@ -407,44 +464,68 @@ import re
 
 def hw_5_1_keys(data: str) -> list[str]:
     """Вернуть список ключей."""
+    # Строка делится по разделителю ";", затем каждый элемент списка делиится ещё раз по "="
+    # Получается список со списками по два элемента внутри
+    # Список списков превращается в словарь
+    # Возвращаются ключи с помощью метода словаря
     res = dict(x.split("=") for x in data.split(";"))
     return list(res.keys())
 
 
 def hw_5_2_values(data: str) -> list[str]:
     """Вернуть список значений."""
+    # Строка делится по разделителю ";", затем каждый элемент списка делиится ещё раз по "="
+    # Получается список со списками по два элемента внутри
+    # Список списков превращается в словарь
+    # Возвращаются значения с помощью метода словаря
     res = dict(x.split("=") for x in data.split(";"))
     return list(res.values())
 
 
 def hw_5_3_all_nonempty(data: str) -> bool:
     """Вернуть True, если все значения непустые."""
+    # Используется функция all() и предыдущая функция для значения
+    # Каждое значение проверяется: не равно пустой строке
     return all(x != "" for x in hw_5_2_values(data))
 
 
 def hw_5_4_keys_latin(data: str) -> bool:
     """Вернуть True, если все ключи — только латинские буквы/цифры."""
+    # Используется all(), re.fullmatch и предыдущая функция для ключей
+    # Каждое значение проверяется регуляркой: состоит только из латинских букв любого регистра и цифр
     return all(re.fullmatch(r"[a-zA-Z0-9]+", x) for x in hw_5_1_keys(data))
 
 
 def hw_5_5_has_digit(data: str) -> bool:
     """Вернуть True, если есть хотя бы одна цифра."""
+    # Используется функция any() и метод isdigit()
+    # Проверка применяется к каждому символу исходной строки
     return any(x.isdigit() for x in data)
 
 
 def hw_5_6_port_ok(data: str) -> bool:
     """Вернуть True, если port задан числом."""
+    # Проверки:
+    # 1. Наличие port в исходной строке
+    # 2. Значение в словаре по ключу port состоит из цифр (isdigit())
     return "port" in hw_5_1_keys(data) and hw_5_2_values(data)[hw_5_1_keys(data).index("port")].isdigit()
 
 
 def hw_5_7_host_ok(data: str) -> bool:
     """Вернуть True, если host непустой и без пробелов."""
+    # Сначала получается индекс ключа host в списке ключей
     i = hw_5_1_keys(data).index("host")
+    # По этому индексу в списке значений находится элемент и проверяется:
+    # 1. Он не равен пустой строке
+    # 2. Каждый символ значения не является пробелом ((any(), isspace)
     return hw_5_2_values(data)[i] != "" and not any(x.isspace() for x in hw_5_2_values(data)[i])
 
 
 def hw_5_8_to_dict(data: str) -> dict[str, str]:
     """Вернуть словарь пар ключ=значение."""
+    # Строка делится по разделителю ";", затем каждый элемент списка делиится ещё раз по "="
+    # Получается список со списками по два элемента внутри
+    # Список списков превращается в словарь
     return dict(x.split("=") for x in data.split(";"))
 
 
